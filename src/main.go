@@ -2,11 +2,16 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"os"
 
 	"com.github.sunbenxin/config"
-	log "github.com/sirupsen/logrus"
+	ctl "com.github.sunbenxin/controller"
+	"com.github.sunbenxin/database"
 	"gopkg.in/yaml.v3"
+
+	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
 )
 
 // global var
@@ -31,9 +36,20 @@ func main() {
 	}()
 
 	initConfig()
-	// init DB
-	// init server
-	// start server
+	database.InitDB(conf.DB)
+	startServer()
+}
+
+func startServer() {
+	r := gin.Default()
+	v1 := r.Group("/v1")
+	{
+		v1.GET("/hello", ctl.Hello)
+	}
+
+	addr := fmt.Sprintf("%s:%d", conf.Host, conf.Port)
+	log.Infof("server addr:%s", addr)
+	r.Run(addr)
 }
 
 func initConfig() {
