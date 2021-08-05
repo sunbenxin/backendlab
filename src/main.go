@@ -8,6 +8,7 @@ import (
 	"com.github.sunbenxin/config"
 	ctl "com.github.sunbenxin/controller"
 	"com.github.sunbenxin/database"
+	"com.github.sunbenxin/redis"
 	"gopkg.in/yaml.v3"
 
 	"github.com/gin-gonic/gin"
@@ -37,6 +38,7 @@ func main() {
 
 	initConfig()
 	database.InitDB(conf.DB)
+	redis.Init(conf.Redis)
 	startServer()
 }
 
