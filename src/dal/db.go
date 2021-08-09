@@ -1,5 +1,4 @@
-// Package database provides ...
-package database
+package dal
 
 import (
 	"fmt"

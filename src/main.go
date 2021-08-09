@@ -7,7 +7,7 @@ import (
 
 	"com.github.sunbenxin/config"
 	ctl "com.github.sunbenxin/controller"
-	"com.github.sunbenxin/database"
+	"com.github.sunbenxin/dal"
 	"com.github.sunbenxin/redis"
 	"gopkg.in/yaml.v3"
 
@@ -28,6 +28,16 @@ func init() {
 	flag.StringVar(&configFile, "config", "../config/server.yaml", "Config file")
 }
 
+// @title Backend API
+// @version 1.0
+// @description This is a sample serice for managing orders
+// @termsOfService http://swagger.io/terms/
+// @contact.name API Support
+// @contact.email soberkoder@swagger.io
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @host localhost:8080
+// @BasePath /
 func main() {
 	log.Info("start backend...")
 	defer func() {
@@ -37,7 +47,7 @@ func main() {
 	}()
 
 	initConfig()
-	database.InitDB(conf.DB)
+	dal.InitDB(conf.DB)
 	redis.Init(conf.Redis)
 	startServer()
 }
@@ -47,6 +57,12 @@ func startServer() {
 	v1 := r.Group("/v1")
 	{
 		v1.GET("/hello", ctl.Hello)
+		//
+		v1.GET("/orders/:order_id", ctl.Order.GetOrder)
+		//v1.POST("/orders", ctl.CreateOrder)
+		//v1.PUT("/orders/:order_id", ctl.UpdateOrder)
+		//v1.DELETE("/orders/:order_id", ctl.DeleteOrder)
+		//v1.GET("/orders", ctl.ListOrders)
 	}
 
 	addr := fmt.Sprintf("%s:%d", conf.Host, conf.Port)
