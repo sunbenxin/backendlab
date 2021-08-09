@@ -9,7 +9,7 @@ import (
 
 // Order represents the model for an order
 type Order struct {
-	ID          string `gorm:"primary_key" json:"orderId" example:"1"`
+	ID          uint64 `gorm:"primary_key" json:"orderId" example:"1"`
 	Description string `json:"desc" example:"Leo Messi"`
 	//Items        []Item    `json:"items"`
 

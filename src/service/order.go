@@ -1,6 +1,8 @@
 package service
 
 import (
+	"time"
+
 	"com.github.sunbenxin/dal"
 	"com.github.sunbenxin/dao"
 )
@@ -10,8 +12,8 @@ type OrderSrv struct {
 
 var Order *OrderSrv = &OrderSrv{}
 
-// GetOrder
-func (svc *OrderSrv) GetOrder(orderID string) (*dao.Order, error) {
+// Get
+func (svc *OrderSrv) Get(orderID string) (*dao.Order, error) {
 	order, err := dal.Order.Get(orderID)
 	if err != nil {
 		//return nil, &rest.CError{InnerErr: err, Code: rest.DatabaseError}
@@ -25,10 +27,16 @@ type OrderParam struct {
 	Description *string `json:"description"`
 }
 
-/*
-// CreateOrder
-func (svc *OrderSrv) CreateOrder(param OrderParam) (*dao.Order, error) {
-	order := dao.Order{}
+// Create
+func (svc *OrderSrv) Create(param OrderParam) (*dao.Order, error) {
+	now := time.Now()
+	order := dao.Order{
+		Description: *param.Description,
+		CreatedAt:   now,
+		UpdatedAt:   now,
+		CreatedBy:   1,
+		UpdatedBy:   1,
+	}
 
 	created, err := dal.Order.Create(&order)
 	if err != nil {
@@ -38,6 +46,7 @@ func (svc *OrderSrv) CreateOrder(param OrderParam) (*dao.Order, error) {
 	return created, nil
 }
 
+/*
 // UpdateOrder
 func (svc *OrderSrv) UpdateOrder(orderId uint64, param OrderParam) (*dao.Order, error) {
 
