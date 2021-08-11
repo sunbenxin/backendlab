@@ -60,8 +60,8 @@ func startServer() {
 		//
 		v1.GET("/orders/:order_id", ctl.Order.Get)
 		v1.POST("/orders", ctl.Order.Create)
-		//v1.PUT("/orders/:order_id", ctl.UpdateOrder)
-		//v1.DELETE("/orders/:order_id", ctl.DeleteOrder)
+		v1.PUT("/orders/:order_id", ctl.Order.Update)
+		v1.DELETE("/orders/:order_id", ctl.Order.Delete)
 		//v1.GET("/orders", ctl.ListOrders)
 	}
 

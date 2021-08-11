@@ -1,0 +1,96 @@
+{
+	"variables": [],
+	"info": {
+		"name": "backendlab",
+		"_postman_id": "95a8dcb4-d1fa-a6e7-b0fd-9bf3a883ddd5",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get order",
+			"request": {
+				"url": "{{host}}:{{port}}/v1/orders/2",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					},
+					{
+						"key": "cookie",
+						"value": " bfusid=c46b6ea8-4bc1-4b04-a1e3-9e9e3ac227b1",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "mainForm=mainForm&srcAmount=100.00&receiver=&destAmountWithFee=0.00&destAmount=0.00&note=&javax.faces.ViewState=-7454432909969238965%3A-2577738284971761758&javax.faces.source=srcAmount&javax.faces.partial.event=change&javax.faces.partial.execute=srcAmount%20%40component&javax.faces.partial.render=%40component&javax.faces.behavior.event=change&org.richfaces.ajax.component=srcAmount&AJAX%3AEVENTS_COUNT=1&javax.faces.partial.ajax=true"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create order",
+			"request": {
+				"url": "{{host}}:{{port}}/v1/orders",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\":\"desc\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "update order",
+			"request": {
+				"url": "{{host}}:{{port}}/v1/orders/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\":\"dessssc\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "delete order",
+			"request": {
+				"url": "{{host}}:{{port}}/v1/orders/1",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\":\"dessssc\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

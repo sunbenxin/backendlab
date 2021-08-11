@@ -19,8 +19,7 @@ var Order *OrderCtl = &OrderCtl{}
 func (ctl *OrderCtl) Get(c *gin.Context) {
 	order, err := service.Order.Get(c.Param("order_id"))
 	if err != nil {
-		//c.Error(&rest.CError{InnerErr: err, Code: rest.InternalServiceError})
-		return
+		logrus.Errorf("Get order err:%v", err)
 	}
 
 	c.JSON(http.StatusOK, &rest.BaseResp{
@@ -42,12 +41,39 @@ func (ctl *OrderCtl) Create(c *gin.Context) {
 	param := service.OrderParam{}
 	if err := c.ShouldBindJSON(&param); err != nil {
 		logrus.Errorf("bind err:%+v", err)
-		return
 	}
 
 	order, err := service.Order.Create(param)
 	if err != nil {
 		logrus.Errorf("create order err:%+v", err)
+	}
+
+	c.JSON(http.StatusOK, &rest.BaseResp{
+		Meta: rest.Meta{
+			Code: 0,
+		},
+		Data: struct {
+			Order *dao.Order `json:"order"`
+		}{
+			Order: order,
+		},
+	})
+
+}
+
+// UpdateOrder
+func (ctl *OrderCtl) Update(c *gin.Context) {
+
+	param := service.OrderParam{}
+
+	if err := c.ShouldBindJSON(&param); err != nil {
+		logrus.Errorf("bind err:%+v", err)
+		return
+	}
+
+	order, err := service.Order.Update(c.Param("order_id"), param)
+	if err != nil {
+		logrus.Errorf("update order err:%+v", err)
 		return
 	}
 
@@ -64,72 +90,27 @@ func (ctl *OrderCtl) Create(c *gin.Context) {
 
 }
 
-/*
-
-// UpdateOrder
-func (ctl *Controller) UpdateOrder(c *gin.Context) {
-
-	orderId, err := strconv.ParseUint(c.Param("order_id"), 10, 64)
-	if err != nil {
-		c.Error(&rest.CError{InnerErr: err, Code: rest.RequestParameterInvalid})
-		return
-	}
-
-	param := service.OrderParam{}
-
-	if err := c.ShouldBindJSON(&param); err != nil {
-		c.Error(&rest.CError{InnerErr: err, Code: rest.RequestParameterInvalid})
-		return
-	}
-
-	logUser := GetLoginUser(c)
-
-	order, err := ctl.Service.UpdateOrder(orderId, param, logUser)
-	if err != nil {
-		c.Error(&rest.CError{InnerErr: err, Code: rest.InternalServiceError})
-		return
-	}
-
-	c.JSON(http.StatusOK, &rest.BaseResp{
-		Meta: &rest.Meta{
-			Code: rest.CodeSuccess,
-		},
-		Data: struct {
-			Order *db.Order `json:"order"`
-		}{
-			Order: order,
-		},
-	})
-
-}
-
 // DeleteOrder
-func (ctl *Controller) DeleteOrder(c *gin.Context) {
-	// params
-	orderID, err := strconv.ParseUint(c.Param("order_id"), 10, 64)
+func (ctl *OrderCtl) Delete(c *gin.Context) {
+	order, err := service.Order.Delete(c.Param("order_id"))
 	if err != nil {
-		c.Error(&rest.CError{InnerErr: err, Code: rest.RequestParameterInvalid})
-		return
-	}
-
-	order, err := ctl.Service.DeleteOrder(orderID)
-	if err != nil {
-		c.Error(&rest.CError{InnerErr: err, Code: rest.InternalServiceError})
+		logrus.Errorf("delete order err:%+v", err)
 		return
 	}
 
 	c.JSON(http.StatusOK, &rest.BaseResp{
-		Meta: &rest.Meta{
-			Code: rest.CodeSuccess,
+		Meta: rest.Meta{
+			Code: 0,
 		},
 		Data: struct {
-			Order *db.Order `json:"order"`
+			Order *dao.Order `json:"order"`
 		}{
 			Order: order,
 		},
 	})
 }
 
+/*
 // ListOrders
 func (ctl *Controller) ListOrders(c *gin.Context) {
 	req := db.ListOrdersReq{}

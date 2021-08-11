@@ -2,8 +2,6 @@
 package dao
 
 import (
-	"time"
-
 	"com.github.sunbenxin/common"
 )
 
@@ -13,12 +11,13 @@ type Order struct {
 	Description string `json:"desc" example:"Leo Messi"`
 	//Items        []Item    `json:"items"`
 
-	CreatedBy uint64     `json:"created_by"`
-	CreatedAt time.Time  `json:"created_at"`
-	UpdatedBy uint64     `json:"updated_by"`
-	UpdatedAt time.Time  `json:"updated_at"`
-	DeletedBy *uint64    `json:"deleted_by"`
-	DeletedAt *time.Time `sql:"index" json:"deleted_at"`
+	CreatedAt int64  `json:"created_at"`
+	UpdatedAt int64  `json:"updated_at"`
+	DeletedAt *int64 `sql:"index" json:"deleted_at"`
+
+	CreatedBy uint64  `json:"created_by"`
+	UpdatedBy uint64  `json:"updated_by"`
+	DeletedBy *uint64 `json:"deleted_by"`
 }
 
 // Item represents the model for an item in the order
